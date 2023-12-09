@@ -33,8 +33,8 @@ const ruleToCheckAgainst = "at-rule-no-unknown";
 const ruleName = namespace(ruleToCheckAgainst);
 
 const messages = utils.ruleMessages(ruleName, {
-  rejected: (...args) => {
-    return rules[ruleToCheckAgainst].messages
+  rejected: async (...args) => {
+    return (await rules[ruleToCheckAgainst]).messages
       .rejected(...args)
       .replace(` (${ruleToCheckAgainst})`, "");
   }
@@ -45,7 +45,7 @@ const meta = {
 };
 
 function rule(primaryOption, secondaryOptions) {
-  return (root, result) => {
+  return async (root, result) => {
     const validOptions = utils.validateOptions(
       result,
       ruleName,
@@ -71,7 +71,7 @@ function rule(primaryOption, secondaryOptions) {
       ignoreAtRules
     });
 
-    utils.checkAgainstRule(
+    await utils.checkAgainstRule(
       {
         ruleName: ruleToCheckAgainst,
         ruleSettings: [primaryOption, defaultedOptions],

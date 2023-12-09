@@ -2,6 +2,7 @@
 
 module.exports = {
   preset: "jest-preset-stylelint",
+  runner: "jest-light-runner",
   clearMocks: true,
   collectCoverage: false,
   collectCoverageFrom: ["src/**/*.js"],

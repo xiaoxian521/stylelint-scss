@@ -12,8 +12,8 @@ const ruleToCheckAgainst = "function-no-unknown";
 const ruleName = namespace(ruleToCheckAgainst);
 
 const messages = utils.ruleMessages(ruleName, {
-  rejected: (...args) => {
-    return rules[ruleToCheckAgainst].messages
+  rejected: async (...args) => {
+    return (await rules[ruleToCheckAgainst]).messages
       .rejected(...args)
       .replace(` (${ruleToCheckAgainst})`, "");
   }
@@ -50,7 +50,7 @@ function getAtUseNamespace(nodes) {
 }
 
 function rule(primaryOption, secondaryOptions) {
-  return (root, result) => {
+  return async (root, result) => {
     const validOptions = utils.validateOptions(
       result,
       ruleName,
@@ -86,7 +86,7 @@ function rule(primaryOption, secondaryOptions) {
 
     const namespaceWarnings = new Set();
 
-    utils.checkAgainstRule(
+    await utils.checkAgainstRule(
       {
         ruleName: ruleToCheckAgainst,
         ruleSettings: [primaryOption, newSecondaryOptions],
